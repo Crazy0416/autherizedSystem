@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
     if(req.query.alertMessage){
         sendData.alertMessage = req.query.alertMessage;
     }
-    res.render('homepage', sendData);
+    res.render('index', sendData);
 });
 
 module.exports = router;
