@@ -1,9 +1,19 @@
 var express = require('express');
 var router = express.Router();
+var moment = require('moment');
+
+router.use(function(req, res, next){
+    console.log('/users : ' + moment().format());
+    next();
+})
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+    var sendData = {};
+    if(req.query.alertMessage){
+        sendData.alertMessage = req.query.alertMessage;
+    }
+    res.render('homepage', sendData);
 });
 
 module.exports = router;
