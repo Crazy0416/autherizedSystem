@@ -17,7 +17,10 @@ router.get('/', function(req, res, next) {
         sendData.m_id = req.session.m_id;
         sendData.m_name = req.session.m_name;
     }
-    res.render('index', sendData);
+    if(req.session.m_level === 1)
+        res.render('adminIndex', sendData);
+    else
+        res.render('index', sendData);
 });
 
 module.exports = router;

@@ -16,31 +16,26 @@
     <% } %>
 </head>
 <body>
-<div name="registerForm" class="loginBox">
+<div name="editForm" class="loginBox">
     <div>
-        아이디 입력:
-        <input type="text" id="id" name="id" value="아이디 입력">
-    </div>
-    <div>
-        비밀번호 입력:
+        비밀번호 변경:
         <input type="password" id="password" name="password">
     </div>
     <div>
-        이름 입력:
+        이름 변경:
         <input type="text" id="name" name="name">
     </div>
     <div>
-        <input type="button" onclick="submitRegister()" id="bSubmit" value="회원가입">
+        <input type="button" onclick="submitEditer()" id="bSubmit" value="정보 변경">
     </div>
 </div>
 
 <script type="application/javascript">
-    function submitRegister() {
+    function submitEditer() {
         $.ajax({
             type:"POST",
-            url:"/users/register",
+            url:"/users/edit",
             data : {
-                id : $('#id').val(),
                 password : MD5($('#password').val()),
                 name : $('#name').val()
             },
