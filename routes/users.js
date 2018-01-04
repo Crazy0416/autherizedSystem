@@ -13,13 +13,35 @@ router.use(function(req, res, next){
 
 /* GET users listing. */
 router.get('/login', function(req, res, next) {
-  res.send('respond with a resource');
+    res.send('respond with a resource');
+});
+
+
+router.get('/logout', function(req, res, next) {
+    req.session.m_id = undefined;
+    req.session.m_name = undefined;
+
+    res.redirect('/?alertMessage=' + '로그아웃 되셨습니다.');
 });
 
 router.post('/register', function(req, res, next){
     var m_id = req.body.id;
     var m_password = req.body.password;
-    var m_
+    var m_name = req.body.name;
+    console.log("register password : " + m_password)
+
+    mysql.query('INSERT INTO Members (mem_id, mem_password, mem_name) VALUES (?,?,?)', [m_id, m_password, m_name], function(err, results, fields){
+        if(err){
+            res.redirect('/?alertMessage=' + 'DB 오류');
+        } else {
+            console.log("POST /users/register : " + JSON.stringify(results));
+            req.session.m_id = m_id;
+            req.session.m_name = m_name;
+            res.send({
+                ok: "ok!!"
+            })
+        }
+    })
 });
 
 router.get('/register', function(req, res, next){
@@ -39,21 +61,22 @@ router.post('/login', function (req, res, next) {
 
     console.log("POST /users/login : ", id, password);
 
-    if(req.session.m_id !== 'undefined'){
-        res.redirect('/?alertMessage='+'이미 로그인되어있습니다.');
+    if(typeof req.session.m_id !== 'undefined'){
+        console.log(req.session.m_id);
+        res.send('?alertMessage=이미 로그인되어있습니다.');
     }else{
-        mysql.query("SELECT * FROM Members WHERE id = ?", id, function(err, result, fields){
+        mysql.query("SELECT * FROM Members WHERE mem_id = ?", id, function(err, result, fields){
+            console.log(result);
             if(err){
-                res.redirect('/?alertMessage'+'DB 에러');
+                res.send('?alertMessage=DB 에러');
             } if(result.length === 0){
-                res.redirect('/?alertMessage'+'ID가 존재하지 않습니다.');
-            }
-            if(result[0]['password'] === password){
+                res.send('?alertMessage=ID가 존재하지 않습니다.');
+            } else if(result[0]['mem_password'] === password){
                 req.session.m_id = id;
                 req.session.m_name = result[0]['mem_name'];
-                res.redirect('/');
+                res.send('');
             }else{
-                res.redirect('/?alertMessage'+'비밀번호가 틀렸습니다.');
+                res.send('?alertMessage=비밀번호가 틀렸습니다.');
             }
         })
     }

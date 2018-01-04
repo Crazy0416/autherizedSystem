@@ -3,8 +3,9 @@
 <head>
     <title>Homepage</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script type="application/javascript" src="javascripts/pbkdf2-client.js"></script>
+    <script type="application/javascript" src="/javascripts/encrypt.js"></script>
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.3.min.js" ></script>
     <% if (typeof alertMessage != 'undefined') { %>
     <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
     <script type="text/javascript">
@@ -15,13 +16,11 @@
     <% } %>
 </head>
 <body>
-<form action="/users/login" name="loginForm" method="post" class="loginBox" onsubmit="encryptPassword">
-    <form class="login">
-        <div>
-            아이디 입력:
-            <input type="text" id="id" name="id" value="아이디 입력">
-        </div>
-    </form>
+<div name="loginForm" class="loginBox">
+    <div>
+        아이디 입력:
+        <input type="text" id="id" name="id" value="아이디 입력">
+    </div>
     <div>
         비밀번호 입력:
         <input type="password" id="password" name="password">
@@ -31,18 +30,29 @@
         <input type="text" id="name" name="name">
     </div>
     <div>
-        <input type="submit" value="로그인">
+        <input type="button" onclick="submitRegister()" id="bSubmit" value="회원가입">
     </div>
-</form>
+</div>
 
 <script type="application/javascript">
-    function encryptPassword() {
-        var bkfd2Password = require('pbkdf2-password');
-        var hasher = bkfd2Password();
-        hasher({password: document.loginForm.password.value}, function(err, pass, salt, hash){
-            document.loginForm.password.value=hash;
-        })
-    }
+    function submitRegister() {
+        $.ajax({
+            type:"POST",
+            url:"/users/register",
+            data : {
+                id : $('#id').val(),
+                password : MD5($('#password').val()),
+                name : $('#name').val()
+            },
+            success: function(result){
+                console.log(result);
+                window.location.replace('http://localhost:3000/?alertMessage=로그인 성공');
+            },
+            error: function(xhr, status, error) {
+                alert(error);
+            }
+        });
+    };
 </script>
 
 </body>

@@ -3,7 +3,9 @@
 <head>
     <title>Homepage</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script type="application/javascript" src="javascripts/pbkdf2-client.js"></script>
+    <script type="application/javascript" src="/javascripts/encrypt.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.3.min.js" ></script>
     <% if (typeof alertMessage != 'undefined') { %>
     <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
     <script type="text/javascript">
@@ -15,7 +17,8 @@
 </head>
 <body>
 <p>
-    <form action="/users/login" name="loginForm" method="post" class="loginBox" onsubmit="encryptPassword">
+    <% if (typeof m_id === 'undefined') { %>
+    <form action="/users/login" name="loginForm" method="post" class="loginBox">
         <div class="login">
             <div>
                 아이디 입력:
@@ -28,14 +31,32 @@
         </div>
         <input type="text" name="salt" style="display: none">
         <div>
-            <input type="submit" value="로그인">
+            <input type="button" onclick="submitLogin()" value="로그인">
         </div>
     </form>
+    <% } else { %>
+    <div class="id">
+        <div>
+            아이디 : <%= m_id%>
+        </div>
+    </div>
+    <div class="name">
+        <div>
+            이름 : <%= m_name %>
+        </div>
+    </div>
+    <% } %>
 </p>
 <p>
+    <% if (typeof m_id === 'undefined') { %>
     <form action="/users/register" method="get" div="registerBox">
         <button type="submit" name="register" value="회원가입">회원가입</button>
     </form>
+    <% } else { %>
+    <form action="/users/logout" method="get" div="logoutBox">
+        <button type="submit" name="register" value="회원가입">로그아웃</button>
+    </form>
+    <%}%>
 </p>
 <p>
     <form action="/users/edit" method="get" div="registerBox">
@@ -44,13 +65,23 @@
 </p>
 
 <script type="application/javascript">
-    function encryptPassword() {
-        var bkfd2Password = require('pbkdf2-password');
-        var hasher = bkfd2Password();
-        hasher({password: document.loginForm.password.value}, function(err, pass, salt, hash){
-            document.loginForm.password.value=hash;
-        })
-    }
+    function submitLogin() {
+        alert(MD5($('#password').val()));
+        $.ajax({
+            type:"POST",
+            url:"/users/login",
+            data : {
+                id : $('#id').val(),
+                password : MD5($('#password').val())
+            },
+            success: function(result){
+                window.location.replace('http://localhost:3000/'+result);
+            },
+            error: function(xhr, status, error) {
+                alert(error);
+            }
+        });
+    };
 </script>
 
 
