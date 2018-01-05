@@ -16,32 +16,38 @@
     <% } %>
 </head>
 <body>
-<div name="editForm" class="loginBox">
-    <div>
-        비밀번호 변경:
-        <input type="password" id="password" name="password">
-    </div>
-    <div>
-        이름 변경:
-        <input type="text" id="name" name="name">
-    </div>
-    <div>
-        <input type="button" onclick="submitEditer()" id="bSubmit" value="정보 변경">
-    </div>
-</div>
+<p>
+    <form name="loginForm" class="loginBox">
+        <div class="login">
+            <div>
+                아이디 입력:
+                <input type="text" id="id" name="id" value="아이디 입력">
+            </div>
+            <div>
+                비밀번호 입력:
+                <input type="password" id="password" name="password">
+            </div>
+        </div>
+        <div>
+            <input type="button" onclick="submitLogin()" value="로그인">
+        </div>
+    </form>
+    <form action="/users/register" method="get" div="registerBox">
+        <button type="submit" name="register" value="회원가입">회원가입</button>
+    </form>
+</p>
 
 <script type="application/javascript">
-    function submitEditer() {
+    function submitLogin() {
         $.ajax({
             type:"POST",
-            url:"/users/edit",
+            url:"/users/login",
             data : {
-                password : MD5($('#password').val()),
-                name : $('#name').val()
+                id : $('#id').val(),
+                password : MD5($('#password').val())
             },
             success: function(result){
-                console.log(result);
-                window.location.replace('http://localhost:3000/');
+                window.location.replace('http://localhost:3000/'+result);
             },
             error: function(xhr, status, error) {
                 alert(error);
@@ -49,6 +55,7 @@
         });
     };
 </script>
+
 
 </body>
 </html>

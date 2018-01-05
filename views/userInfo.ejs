@@ -17,24 +17,6 @@
 </head>
 <body>
 <p>
-    <% if (typeof m_id === 'undefined') { %>
-    <form action="/users/login" name="loginForm" method="post" class="loginBox">
-        <div class="login">
-            <div>
-                아이디 입력:
-                <input type="text" id="id" name="id" value="아이디 입력">
-            </div>
-            <div>
-                비밀번호 입력:
-                <input type="password" id="password" name="password">
-            </div>
-        </div>
-        <input type="text" name="salt" style="display: none">
-        <div>
-            <input type="button" onclick="submitLogin()" value="로그인">
-        </div>
-    </form>
-    <% } else { %>
     <div class="id">
         <div>
             아이디 : <%= m_id%>
@@ -45,18 +27,11 @@
             이름 : <%= m_name %>
         </div>
     </div>
-    <% } %>
 </p>
 <p>
-    <% if (typeof m_id === 'undefined') { %>
-    <form action="/users/register" method="get" div="registerBox">
-        <button type="submit" name="register" value="회원가입">회원가입</button>
-    </form>
-    <% } else { %>
     <form action="/users/logout" method="get" div="logoutBox">
         <button type="submit" name="register" value="회원가입">로그아웃</button>
     </form>
-    <%}%>
 </p>
 <p>
     <form action="/users/edit" method="get" div="registerBox">

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Homepage</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type="application/javascript" src="/javascripts/encrypt.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.3.min.js" ></script>
+    <% if (typeof alertMessage != 'undefined') { %>
+    <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            alert("<%=alertMessage%>");
+        });
+    </script>
+    <% } %>
+</head>
+<body>
+<p>
+    <div class="id">
+        <div>
+            아이디 : <%= m_id%>
+        </div>
+    </div>
+    <div class="name">
+        <div>
+            이름 : <%= m_name %>
+        </div>
+    </div>
+</p>
+<p>
+    <form action="/users/logout" method="get" div="logoutBox">
+        <button type="submit" name="register" value="회원가입">로그아웃</button>
+    </form>
+</p>
+<p>
+    <form action="/admin" method="get" div="registerBox">
+        <button type="submit" name="editProfile" value="회원 정보 수정">회원 정보 수정</button>
+    </form>
+</p>
+</body>
+</html>
