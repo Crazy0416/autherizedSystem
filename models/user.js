@@ -5,7 +5,7 @@ var mysql = connection.createConnection(db_config);
 
 exports.all = function(callback){
 
-        mysql.query('SELECT * FROM Members', function (err, results, fields) {
+        mysql.query('SELECT * FROM Users', function (err, results, fields) {
 
             if(err){
 
@@ -23,7 +23,7 @@ exports.all = function(callback){
 
 exports.updateName = function(name, uid, callback){
 
-        mysql.query('UPDATE Members SET name=? WHERE uid=?', [name, uid], function(err, results, fields){
+        mysql.query('UPDATE Users SET name=? WHERE uid=?', [name, uid], function(err, results, fields){
             if(err){
 
                 console.log("ERR DB UPDATE updateName : " + err);
@@ -42,7 +42,7 @@ exports.updateName = function(name, uid, callback){
 
 exports.createUser = function(uid, password, name, level, callback){
 
-    mysql.query('INSERT INTO Members (uid, password, name, level) VALUES (?,?,?,?)', [uid, password, name, 0], function(err, results, fields){
+    mysql.query('INSERT INTO Users (uid, password, name, level) VALUES (?,?,?,?)', [uid, password, name, 0], function(err, results, fields){
         if(err){
 
             console.log("ERR DB INSERT createUser : " + err);
@@ -57,3 +57,23 @@ exports.createUser = function(uid, password, name, level, callback){
     })
 
 };
+
+exports.selectUserWhereId = function(uid, callback){
+
+    mysql.query("SELECT * FROM Users WHERE uid = ?", uid, function(err, results, fields){
+
+        if(err){
+
+            console.log("ERR DB SELECT selectUserWhereId : " + err);
+
+        }else {
+
+            console.log('DB SELECT selectUserWhereId results : ' + JSON.stringify(results));
+
+        }
+
+        callback(err, results, fields);
+
+    })
+
+}

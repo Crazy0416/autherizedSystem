@@ -64,32 +64,7 @@ router.post('/register', function(req, res, next){
 
         }
 
-    })
-
-    mysql.query('INSERT INTO Members (uid, password, name, level) VALUES (?,?,?,?)', [uid, password, name, 0], function(err, results, fields){
-        if(err){
-
-            res.status(400).send('');
-
-        } else {
-
-            console.log("POST /users/register : " + JSON.stringify(results));
-
-            req.session.uid = uid;
-            req.session.name = name;
-            req.session.level = 0;
-
-            res.send({
-                "success": 1,
-                "msg" : "Register Complete",
-                "data": {
-                    "id" : uid,
-                    "name" : name
-                }
-            })
-
-        }
-    })
+    });
 });
 
 router.get('/register', function(req, res, next){
@@ -126,32 +101,47 @@ router.post('/login', function (req, res, next) {
 
     }else{
 
-        mysql.query("SELECT * FROM Members WHERE uid = ?", uid, function(err, results, fields){
-
-            console.log(results);
+        userDB.createUser(uid, function(err, results, fields){
 
             if(err){
 
-                res.send('?alertMessage=DB 에러');
+                res.send({
+                    "success": 0,
+                    "msg" : "DB ERROR"
+                })
 
             } if(results.length === 0){
 
-                res.send('?alertMessage=ID가 존재하지 않습니다.');
+                res.send({
+                    "success": 0,
+                    "msg" : "아이디가 존재하지 않습니다."
+                })
 
             } else if(results[0]['mem_password'] === password){
 
-                req.session.uid = id;
+                req.session.uid = uid;
                 req.session.name = results[0]['mem_name'];
                 req.session.level = results[0]['mem_level'];
 
-                res.send('');
+                res.send({
+                    "success": 1,
+                    "msg" : "로그인 완료",
+                    "data": {
+                        "id" : uid,
+                        "name" : name
+                    }
+                })
 
             }else{
 
-                res.send('?alertMessage=비밀번호가 틀렸습니다.');
+                res.send({
+                    "success": 0,
+                    "msg" : "비밀번호가 틀렸습니다."
+                })
 
             }
-        })
+
+        });
     }
 });
 
