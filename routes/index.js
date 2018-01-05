@@ -20,17 +20,17 @@ router.get('/', function(req, res, next) {
         sendData.alertMessage = req.query.alertMessage;
 
     }
-    if(typeof req.session.m_id !== 'undefined' && typeof req.session.m_level !== 'undefined'){
+    if(typeof req.session.uid !== 'undefined' && typeof req.session.level !== 'undefined'){
 
-        sendData.m_id = req.session.m_id;
-        sendData.m_name = req.session.m_name;
+        sendData.uid = req.session.uid;
+        sendData.name = req.session.name;
 
     }
-    if(req.session.m_id && req.session.m_level !== 1){       // 관리자가 아닌 유저가 로그인 되어 있는 경우
+    if(req.session.uid && req.session.level !== 1){       // 관리자가 아닌 유저가 로그인 되어 있는 경우
 
         res.render('userInfo', sendData);
 
-    }else if(req.session.m_id && req.session.m_level === 1){        // 관리자로 로그인 되어 있는 경우
+    }else if(req.session.uid && req.session.level === 1){        // 관리자로 로그인 되어 있는 경우
 
         res.render('adminInfo', sendData);
 

@@ -3,7 +3,7 @@ function submitLogin() {
         type:"POST",
         url:"/users/login",
         data : {
-            id : $('#id').val(),
+            uid : $('#uid').val(),
             password : MD5($('#password').val())
         },
         success: function(result){

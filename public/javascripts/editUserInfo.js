@@ -3,7 +3,7 @@ function submitEditer(index) {
         type: "POST",
         url: "/admin/edit",
         data: {
-            id: $('#id'+index).text(),
+            uid: $('#uid'+index).text(),
             name: $('#name'+index).val()
         },
         success: function (result) {

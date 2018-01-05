@@ -13,7 +13,7 @@
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.3.min.js" ></script>
     <script type="application/javascript" src="/javascripts/editUserInfo.js"></script>
-    <%- include alert.ejs %>
+    <%- include alertMessage.ejs %>
 </head>
 
 <body>
@@ -27,7 +27,7 @@
         <tr>
             <div>
                 <td>
-                    <div id="id<%=i%>"><%=memberArr[i].mem_id%></div>
+                    <div id="uid<%=i%>"><%=memberArr[i].mem_id%></div>
                 </td>
                 <td>
                     <input type="text" id="name<%=i%>" name="name" value="<%=memberArr[i].mem_name%>">

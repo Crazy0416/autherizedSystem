@@ -17,10 +17,10 @@ router.use(function(req, res, next){
 
 router.get('/', function(req, res, next){
 
-    console.log(req.session.m_id, req.session.m_level);
+    console.log(req.session.uid, req.session.level);
     var sendData = {};
 
-    if(req.session.m_id === 'xxxx' && req.session.m_level === 1){
+    if(req.session.uid === 'xxxx' && req.session.level === 1){
 
         userDB.all(function(err, results, fields){
 
@@ -46,15 +46,14 @@ router.get('/', function(req, res, next){
 
 router.post('/edit', function(req, res, next){
 
-    var m_id = req.body.id;
-    var m_name = req.body.name;
-    console.log("이름 : " + m_name + "\n아이디: " + m_id);
+    var uid = req.body.uid;
+    var name = req.body.name;
+    console.log("이름 : " + name + "\n아이디: " + uid);
 
-    userDB.updateName(m_name, m_id, function(err, results, fields){
+    userDB.updateName(name, uid, function(err, results, fields){
 
         if(err){
 
-            console.log("ERR DB UPDATE : "  + err);
             res.status(400).send('변경 실패..');
 
         } else {

@@ -8,37 +8,52 @@ exports.all = function(callback){
         mysql.query('SELECT * FROM Members', function (err, results, fields) {
 
             if(err){
+
                 console.log("ERR DB SELECT all : " + err);
-                res.redirect('?alertMessage='+ 'DB 오류');
 
             }else {
 
                 console.log('DB SELECT all results : ' + JSON.stringify(results));
 
-                callback(err, results, fields);
-                return ;
             }
+            callback(err, results, fields);
         })
 
 };
 
-exports.updateName = function(mem_name, mem_id, callback){
+exports.updateName = function(name, uid, callback){
 
-        mysql.query('UPDATE Members SET mem_name=? WHERE mem_id=?', [mem_name, mem_id], function(err, results, fields){
-
+        mysql.query('UPDATE Members SET name=? WHERE uid=?', [name, uid], function(err, results, fields){
             if(err){
 
-                callback(err);
+                console.log("ERR DB UPDATE updateName : " + err);
 
-            } else {
+            }else {
 
-                console.log('DB UPDATE updateName results : '+ JSON.stringify(results));
-                console.log('DB UPDATE updateName fields : '+ JSON.stringify(fields));
-
-                callback(null, results, fields);
+                console.log('DB UPDATE updateName results : ' + JSON.stringify(results));
 
             }
+
+            callback(err, results, fields);
+
         })
 
 };
 
+exports.createUser = function(uid, password, name, level, callback){
+
+    mysql.query('INSERT INTO Members (uid, password, name, level) VALUES (?,?,?,?)', [uid, password, name, 0], function(err, results, fields){
+        if(err){
+
+            console.log("ERR DB INSERT createUser : " + err);
+
+        }else {
+
+            console.log('DB INSERT createUser results : ' + JSON.stringify(results));
+
+        }
+
+        callback(err, results, fields);
+    })
+
+};
