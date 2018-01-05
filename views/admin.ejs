@@ -12,15 +12,10 @@
     <script type="application/javascript" src="/javascripts/encrypt.js"></script>
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.3.min.js" ></script>
-    <% if (typeof alertMessage != 'undefined') { %>
-    <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            alert("<%=alertMessage%>");
-        });
-    </script>
-    <% } %>
+    <script type="application/javascript" src="/javascripts/editUserInfo.js"></script>
+    <%- include alert.ejs %>
 </head>
+
 <body>
 <div name="adminTableForm" class="adminTable" id="adminTable">
     <table class="adminTable">
@@ -30,7 +25,7 @@
         <tbody>
         <%for(var i = 0; i < memberArr.length; i++) {%>
         <tr>
-            <form action="">
+            <div>
                 <td>
                     <div id="id<%=i%>"><%=memberArr[i].mem_id%></div>
                 </td>
@@ -40,7 +35,7 @@
                 <td>
                     <button value="수정하기" onclick="submitEditer(<%=i%>)">수정하기</button>
                 </td>
-            </form>
+            </div>
         </tr>
         <%}%>
         </tbody>
@@ -48,26 +43,5 @@
 <div class="navigate">
     <a href="/">뒤로가기</a>
 </div>
-
-<script type="text/javascript">
-    function submitEditer(index) {
-        $.ajax({
-            type: "POST",
-            url: "/admin/edit",
-            data: {
-                id: $('#id'+index).text(),
-                name: $('#name'+index).val()
-            },
-            success: function (result) {
-                console.log(result);
-                alert(result);
-            },
-            error: function (xhr, status, error) {
-                alert(error);
-            }
-        });
-    }
-</script>
-
 </body>
 </html>

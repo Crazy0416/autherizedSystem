@@ -6,14 +6,9 @@
     <script type="application/javascript" src="/javascripts/encrypt.js"></script>
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.3.min.js" ></script>
-    <% if (typeof alertMessage != 'undefined') { %>
-    <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            alert("<%=alertMessage%>");
-        });
-    </script>
-    <% } %>
+    <script type="application/javascript" src="/javascripts/login.js"></script>
+    <%- include alert.ejs %>
+
 </head>
 <body>
 <p>
@@ -36,26 +31,6 @@
         <button type="submit" name="register" value="회원가입">회원가입</button>
     </form>
 </p>
-
-<script type="application/javascript">
-    function submitLogin() {
-        $.ajax({
-            type:"POST",
-            url:"/users/login",
-            data : {
-                id : $('#id').val(),
-                password : MD5($('#password').val())
-            },
-            success: function(result){
-                window.location.replace('http://localhost:3000/'+result);
-            },
-            error: function(xhr, status, error) {
-                alert(error);
-            }
-        });
-    };
-</script>
-
 
 </body>
 </html>

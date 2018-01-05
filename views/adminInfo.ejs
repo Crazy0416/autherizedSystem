@@ -6,14 +6,7 @@
     <script type="application/javascript" src="/javascripts/encrypt.js"></script>
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.3.min.js" ></script>
-    <% if (typeof alertMessage != 'undefined') { %>
-    <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            alert("<%=alertMessage%>");
-        });
-    </script>
-    <% } %>
+    <%- include alert.ejs %>
 </head>
 <body>
 <p>
