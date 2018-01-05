@@ -31,8 +31,9 @@ router.get('/', function(req, res, next){
             } else {
 
                 sendData.memberArr = results;
+                console.log(JSON.stringify(results));
 
-                res.render('admin', sendData);
+                res.render('adminEdit', sendData);
 
             }
 
@@ -54,18 +55,23 @@ router.post('/edit', function(req, res, next){
 
         if(err){
 
-            res.status(400).send('변경 실패..');
+            res.status(400).send('');
 
         } else {
 
-            res.send('변경 성공!!');
+            res.send({
+                "success": 1,
+                "msg" : "정상적으로 변경되었습니다.",
+                "data" : {
+                    "name" : name,
+                    "uid" : req.session.uid
+                }
+            });
 
         }
 
     });
 
 });
-
-
 
 module.exports = router;

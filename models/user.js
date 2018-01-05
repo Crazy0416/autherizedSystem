@@ -76,4 +76,24 @@ exports.selectUserWhereId = function(uid, callback){
 
     })
 
+};
+
+exports.updateUserWhereUid = function(password, name, uid, callback){
+
+    mysql.query('UPDATE Users SET password=?, name=? WHERE uid=?', [password, name, uid], function(err, results, fields){
+
+        if(err){
+
+            console.log("ERR DB UPDATE updateUserWhereUid : " + err);
+
+        }else {
+
+            console.log('DB UPDATE updateUserWhereUid results : ' + JSON.stringify(results));
+
+        }
+
+        callback(err, results, fields);
+
+    })
+
 }

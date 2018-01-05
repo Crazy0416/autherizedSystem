@@ -8,7 +8,7 @@ function submitEditer(index) {
         },
         success: function (result) {
             console.log(result);
-            alert(result);
+            alert(result['msg']);
         },
         error: function (xhr, status, error) {
             switch (xhr.status){

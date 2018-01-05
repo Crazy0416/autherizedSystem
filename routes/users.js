@@ -97,12 +97,13 @@ router.post('/login', function (req, res, next) {
 
         console.log(req.session.uid);
 
-        res.send('?alertMessage=이미 로그인되어있습니다.');
+        res.send({
+            "success": 0,
+            "msg" : "이미 로그인되어있습니다."
+        })
 
     }else{
-
-        userDB.createUser(uid, function(err, results, fields){
-
+        userDB.selectUserWhereId(uid, function(err, results, fields){
             if(err){
 
                 res.send({
@@ -117,18 +118,18 @@ router.post('/login', function (req, res, next) {
                     "msg" : "아이디가 존재하지 않습니다."
                 })
 
-            } else if(results[0]['mem_password'] === password){
+            } else if(results[0]['password'] === password){
 
                 req.session.uid = uid;
-                req.session.name = results[0]['mem_name'];
-                req.session.level = results[0]['mem_level'];
+                req.session.name = results[0]['name'];
+                req.session.level = results[0]['level'];
 
                 res.send({
                     "success": 1,
                     "msg" : "로그인 완료",
                     "data": {
                         "id" : uid,
-                        "name" : name
+                        "name" : results[0]['name']
                     }
                 })
 
@@ -169,18 +170,18 @@ router.post('/edit', function(req, res, next){
 
     }else {
 
-        mysql.query('UPDATE Members SET password=?, name=? WHERE uid=?', [password, name, req.session.uid], function(err, results, fields){
+        userDB.updateUserWhereUid(password, name, req.session.uid, function(err, results, fields){
 
             if(err){
 
-                res.send('?alertMessage=DB 오류');
+                res.status(400).send('');
+
+            }else {
+
+                req.session.name = name;
+                res.send('정상적으로 변경되었습니다.');
 
             }
-
-            req.session.name = name;
-            console.log('POST /users/edit : '+ JSON.stringify(results));
-
-            res.send('');
 
         })
     }

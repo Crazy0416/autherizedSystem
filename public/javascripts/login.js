@@ -7,7 +7,7 @@ function submitLogin() {
             password : MD5($('#password').val())
         },
         success: function(result){
-            window.location.replace('http://localhost:3000/'+ "/?" + result['msg']);
+            window.location.replace('http://localhost:3000/'+ "?alertMessage=" + result['msg']);
         },
         error: function(xhr, status, error) {
             alert(error);

@@ -17,11 +17,14 @@ router.get('/', function(req, res, next) {
 
     if(req.query.alertMessage){
 
+        console.log('메세지 적용');
         sendData.alertMessage = req.query.alertMessage;
 
     }
+    console.log(typeof req.session.uid !== 'undefined' && typeof req.session.level !== 'undefined');
     if(typeof req.session.uid !== 'undefined' && typeof req.session.level !== 'undefined'){
 
+        console.log('세션 적용 완료');
         sendData.uid = req.session.uid;
         sendData.name = req.session.name;
 
